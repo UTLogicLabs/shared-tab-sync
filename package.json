@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite dev --host",
     "build": "react-router build",
-    "preview": "wrangler pages dev",
+    "preview": "wrangler dev",
     "deploy": "wrangler deploy",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.42.1",
-    "@cloudflare/workers-types": "^5.20260708.1",
+    "@cloudflare/workers-types": "^4.20260617.1",
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.2",
     "@playwright/test": "^1.61.0",
@@ -68,6 +68,6 @@
     "typescript-eslint": "^8.61.1",
     "vite": "^8.0.16",
     "vitest": "^4.1.9",
-    "wrangler": "^4.110.0"
+    "wrangler": "4.103.0"
   }
 }

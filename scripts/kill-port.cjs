@@ -3,6 +3,9 @@
 // Works on macOS (lsof) and Linux (fuser).
 const { execSync } = require('child_process');
 const port = process.argv[2] || '5173';
+if (!/^\d+$/.test(port)) {
+  throw new Error(`Invalid port: ${port}`);
+}
 
 try {
   execSync(

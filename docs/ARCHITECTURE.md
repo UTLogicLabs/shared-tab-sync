@@ -30,7 +30,7 @@ Cloudflare Workers (SSR + WebSocket upgrade)
 4. The Worker calls `createRequestHandler` from `@react-router/cloudflare` for normal page requests.
 5. React Router matches the URL to a route in `app/routes/`, calling its `loader`/`action`.
 6. Room-scoped routes resolve `env.ROOM.getByName(code)` to reach the room's `RoomObject` for a snapshot (SSR pre-render) or, on the client, to open a WebSocket.
-7. Directory-level reads/writes (room existence, expiry, URL cache) go through `getPrisma(env.DB)` in `app/db.server.ts` against D1.
+7. Directory-level reads/writes (room existence, expiry, URL cache) go through `getPrisma(env.shared_tab_sync_db)` in `app/db.server.ts` against D1.
 8. The Worker streams the rendered response via `renderToReadableStream` (`app/entry.server.tsx`); `entry.client.tsx` hydrates on the client.
 
 ## Real-Time Room Model
@@ -90,7 +90,7 @@ The DO's internal SQLite schema is created/evolved in the `RoomObject` construct
 
 ### Per-Request Client
 
-`getPrisma(env.DB)` creates a fresh `PrismaClient` on every request — D1 bindings are request-scoped and there's no connection pool to maintain (D1 is HTTP-backed).
+`getPrisma(env.shared_tab_sync_db)` creates a fresh `PrismaClient` on every request — D1 bindings are request-scoped and there's no connection pool to maintain (D1 is HTTP-backed).
 
 ## Environment Strategy
 
