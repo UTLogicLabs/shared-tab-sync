@@ -1,0 +1,74 @@
+name: Deploy
+
+on:
+  push:
+    branches: [master]
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  check-secrets:
+    name: Check required secrets
+    runs-on: ubuntu-latest
+    outputs:
+      secrets_available: ${{ steps.check.outputs.available }}
+    steps:
+      - name: Verify Cloudflare secrets are set
+        id: check
+        env:
+          API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [[ -n "$API_TOKEN" && -n "$ACCOUNT_ID" ]]; then
+            echo "available=true" >> $GITHUB_OUTPUT
+          else
+            echo "Deployment secrets not configured — skipping deploy."
+            echo "Set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in:"
+            echo "GitHub → Settings → Secrets and variables → Actions"
+            echo "available=false" >> $GITHUB_OUTPUT
+          fi
+
+  deploy:
+    name: Deploy to Cloudflare Workers
+    needs: check-secrets
+    if: needs.check-secrets.outputs.secrets_available == 'true'
+    runs-on: ubuntu-latest
+
+    # Branch protection requires CI to pass before this can run on master.
+    environment:
+      name: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npm run db:generate
+
+      - name: Build
+        run: npm run build
+
+      - name: Apply D1 migrations
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: d1 migrations apply shared-tab-sync-db --remote
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
