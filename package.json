@@ -1,0 +1,73 @@
+{
+  "name": "shared-tab-sync",
+  "version": "1.0.0",
+  "description": "Real-time shared tab board — React Router v7 on Cloudflare Workers",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --host",
+    "build": "react-router build",
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "dev:e2e": "vite dev --host --port 5173 --strictPort",
+    "pretest:e2e": "node scripts/kill-port.cjs 5173",
+    "test:e2e": "playwright test",
+    "db:generate": "prisma generate",
+    "db:migrate:new": "node scripts/migrate.js",
+    "db:migrate:apply:local": "wrangler d1 migrations apply shared-tab-sync-db --local",
+    "db:migrate:apply:remote": "wrangler d1 migrations apply shared-tab-sync-db --remote",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTLogicLabs/shared-tab-sync.git"
+  },
+  "keywords": [],
+  "author": "Joshua Dix <josh.dix@theblindman.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UTLogicLabs/shared-tab-sync/issues"
+  },
+  "homepage": "https://github.com/UTLogicLabs/shared-tab-sync#readme",
+  "dependencies": {
+    "@prisma/adapter-d1": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@react-router/cloudflare": "^7.18.0",
+    "@react-router/node": "^7.18.0",
+    "isbot": "^5.1.43",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router": "^7.18.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.42.1",
+    "@cloudflare/workers-types": "^4.20260617.1",
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
+    "@playwright/test": "^1.61.0",
+    "@react-router/dev": "^7.18.0",
+    "@tailwindcss/vite": "^4.3.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/coverage-v8": "^4.1.9",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
+    "prisma": "^7.8.0",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.9",
+    "wrangler": "4.103.0"
+  }
+}

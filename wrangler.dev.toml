@@ -1,0 +1,12 @@
+name = "shared-tab-sync"
+compatibility_date = "2025-01-01"
+main = "workers/app.ts"
+
+[vars]
+ENVIRONMENT = "development"
+SITE_URL = "http://localhost:5173"
+
+[[d1_databases]]
+binding = "shared_tab_sync_db"
+database_name = "shared-tab-sync-db"
+database_id = "be9181c1-912a-46c7-8fbc-39cb21aef3bb"
