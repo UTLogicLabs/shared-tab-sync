@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.42.1",
+    "@cloudflare/vitest-pool-workers": "^0.18.4",
     "@cloudflare/workers-types": "^4.20260617.1",
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.2",
