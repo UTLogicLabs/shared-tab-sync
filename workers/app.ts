@@ -13,7 +13,8 @@ declare module "react-router" {
   }
 }
 
-const handler = createRequestHandler({ build, mode: import.meta.env.MODE });
+const mode = import.meta.env?.MODE === "development" ? "development" : "production";
+const handler = createRequestHandler({ build, mode });
 
 export default {
   fetch(request: Request, env: Env, ctx: ExecutionContext) {
