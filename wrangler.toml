@@ -12,3 +12,11 @@ directory = "./dist/client"
 binding = "shared_tab_sync_db"
 database_name = "shared-tab-sync-db"
 database_id = "be9181c1-912a-46c7-8fbc-39cb21aef3bb"
+
+[[durable_objects.bindings]]
+name = "ROOM"
+class_name = "RoomObject"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RoomObject"]

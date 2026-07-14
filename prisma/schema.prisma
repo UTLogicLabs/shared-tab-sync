@@ -5,3 +5,17 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+model Room {
+  code      String   @id
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model UrlCache {
+  url        String   @id
+  title      String?
+  faviconUrl String?
+  fetchedAt  DateTime @default(now())
+  expiresAt  DateTime
+}
